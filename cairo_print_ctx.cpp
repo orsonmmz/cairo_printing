@@ -10,10 +10,7 @@
 
 #ifdef __WXMAC__
 #include <ApplicationServices/ApplicationServices.h>
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
+#include <cairo-quartz.h>
 #endif /* __WXMAC__ */
 
 
@@ -39,8 +36,9 @@ CAIRO_PRINT_CTX::CAIRO_PRINT_CTX( wxPrinterDC& aPrinterDC )
 #endif /* __WXMSW__ */
 
 #ifdef __WXMAC__
+    wxSize size = m_gcdc->GetSize();
     CGContextRef cg = (CGContextRef) gctx->GetNativeContext();
-    m_surface = cairo_quartz_surface_create_for_cg_context( cg, 1024, 1024 );   // TODO size
+    m_surface = cairo_quartz_surface_create_for_cg_context( cg, size.x, size.y );
     m_ctx = cairo_create( m_surface );
 #endif /* __WXMAC__ */
 
