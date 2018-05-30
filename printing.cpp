@@ -46,10 +46,6 @@
 
 #include "printing.h"
 
-#ifndef wxHAS_IMAGES_IN_RESOURCES
-    #include "../sample.xpm"
-#endif
-
 #include "cairo_print_ctx.h"
 
 // Global print data, to remember settings during the session
@@ -211,10 +207,6 @@ void MyApp::Draw(wxDC&dc)
     str.Printf( wxT("---- Text at angle %d ----"), i );
     dc.DrawRotatedText( str, 100, 300, i );
 
-    wxIcon my_icon = wxICON(sample);
-
-    dc.DrawIcon( my_icon, 100, 100);
-
     if (m_bitmap.IsOk())
         dc.DrawBitmap( m_bitmap, 10, 10 );
 
@@ -305,9 +297,6 @@ MyFrame::MyFrame(wxFrame *frame, const wxString&title, const wxPoint&pos, const 
     CreateStatusBar(2);
     SetStatusText(wxT("Printing demo"));
 #endif // wxUSE_STATUSBAR
-
-    // Load icon and bitmap
-    SetIcon( wxICON( sample) );
 
     // Make a menubar
     wxMenu *file_menu = new wxMenu;
