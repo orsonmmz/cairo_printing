@@ -22,10 +22,16 @@ public:
         return m_surface;
     }
 
+    void Release();
+
 private:
     wxGCDC* m_gcdc;
     cairo_t* m_ctx;
     cairo_surface_t* m_surface;
+
+#ifdef __WXMSW__
+    void* m_hdc;
+#endif /* __WXMSW__ */
 };
 
 #endif /* _CAIRO_PRINT_CTX_H_ */

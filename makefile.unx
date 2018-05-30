@@ -20,7 +20,7 @@ CXXFLAGS ?=
 CPPFLAGS ?= 
 
 # Standard linker flags 
-LDFLAGS ?= `pkg-config --libs cairo`
+LDFLAGS ?= `pkg-config --libs cairo` -lgdiplus
 
 # Location and arguments of wx-config script 
 WX_CONFIG ?= wx-config

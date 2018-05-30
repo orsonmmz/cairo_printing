@@ -560,6 +560,7 @@ bool MyPrintout::OnPrintPage(int page)
                 cairo_fill_preserve (cr);
                 cairo_set_source_rgb (cr, 0, 0, 0);
                 cairo_stroke (cr);
+                printCtx.Release();
             }
         }
         else if (page == 2)
