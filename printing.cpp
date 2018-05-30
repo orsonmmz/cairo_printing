@@ -566,6 +566,30 @@ bool MyPrintout::OnPrintPage(int page)
         else if (page == 2)
         {
             DrawPageTwo();
+            
+            wxPrinterDC *printer_dc = wxDynamicCast( dc, wxPrinterDC );
+            wxASSERT( printer_dc );
+
+            if (printer_dc)
+            {
+                CAIRO_PRINT_CTX printCtx( *printer_dc );
+                cairo_t* cr = printCtx.GetContext();
+                cairo_arc (cr, 128.0, 128.0, 76.8, 0, 2 * M_PI);
+                cairo_clip (cr);
+
+                cairo_new_path (cr);  /* current path is not
+                                         consumed by cairo_clip() */
+                cairo_rectangle (cr, 0, 0, 256, 256);
+                cairo_fill (cr);
+                cairo_set_source_rgb (cr, 0, 1, 0);
+                cairo_move_to (cr, 0, 0);
+                cairo_line_to (cr, 256, 256);
+                cairo_move_to (cr, 256, 0);
+                cairo_line_to (cr, 0, 256);
+                cairo_set_line_width (cr, 10.0);
+                cairo_stroke (cr);
+                printCtx.Release();
+            }
         }
 
         // Draw page numbers at top left corner of printable area, sized so that
