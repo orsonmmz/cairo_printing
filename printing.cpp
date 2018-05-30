@@ -549,13 +549,12 @@ bool MyPrintout::OnPrintPage(int page)
                 cairo_fill_preserve (cr);
                 cairo_set_source_rgb (cr, 0, 0, 0);
                 cairo_stroke (cr);
-                printCtx.Release();
             }
         }
         else if (page == 2)
         {
             DrawPageTwo();
-            
+
             wxPrinterDC *printer_dc = wxDynamicCast( dc, wxPrinterDC );
             wxASSERT( printer_dc );
 
@@ -577,7 +576,6 @@ bool MyPrintout::OnPrintPage(int page)
                 cairo_line_to (cr, 0, 256);
                 cairo_set_line_width (cr, 10.0);
                 cairo_stroke (cr);
-                printCtx.Release();
             }
         }
 

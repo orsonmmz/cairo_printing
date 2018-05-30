@@ -48,7 +48,6 @@ CAIRO_PRINT_CTX::CAIRO_PRINT_CTX( wxPrinterDC& aPrinterDC )
     if( cairo_surface_status( m_surface ) != CAIRO_STATUS_SUCCESS )
         throw std::runtime_error( "Could not create Cairo surface" );
 
-    // TODO
     cairo_reference( m_ctx );
     cairo_surface_reference( m_surface );
 }
@@ -56,20 +55,14 @@ CAIRO_PRINT_CTX::CAIRO_PRINT_CTX( wxPrinterDC& aPrinterDC )
 
 CAIRO_PRINT_CTX::~CAIRO_PRINT_CTX()
 {
-    cairo_surface_destroy( m_surface );
-    cairo_destroy( m_ctx );
-    delete m_gcdc;
-}
-
-
-void CAIRO_PRINT_CTX::Release()
-{
 #ifdef __WXMSW__
-    wxCHECK( m_hdc, /*void*/ );
     cairo_surface_show_page( m_surface );
     wxGraphicsContext* gctx = m_gcdc->GetGraphicsContext();
     Gdiplus::Graphics* g = static_cast<Gdiplus::Graphics*>( gctx->GetNativeContext() );
     g->ReleaseHDC( static_cast<HDC>( m_hdc ) );
-    m_hdc = nullptr;    // mark as released
 #endif /* __WXMSW__ */
+
+    cairo_surface_destroy( m_surface );
+    cairo_destroy( m_ctx );
+    delete m_gcdc;
 }

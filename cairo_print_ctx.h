@@ -22,8 +22,6 @@ public:
         return m_surface;
     }
 
-    void Release();
-
 private:
     wxGCDC* m_gcdc;
     cairo_t* m_ctx;
