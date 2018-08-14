@@ -526,28 +526,44 @@ bool MyPrintout::OnPrintPage(int page)
 
             wxPrinterDC *printer_dc = wxDynamicCast( dc, wxPrinterDC );
             wxASSERT( printer_dc );
+            auto dpi = printer_dc->GetPPI().x;
+
+            std::cout << "DPI " << dpi << std::endl;
 
             if (printer_dc)
             {
                 CAIRO_PRINT_CTX printCtx( *printer_dc );
                 cairo_t* cr = printCtx.GetContext();
 
-                cairo_move_to (cr, 128.0, 25.6);
-                cairo_line_to (cr, 230.4, 230.4);
-                cairo_rel_line_to (cr, -102.4, 0.0);
-                cairo_curve_to (cr, 51.2, 230.4, 51.2, 128.0, 128.0, 128.0);
+                cairo_matrix_t cairoTransformation;
+                cairo_matrix_init_identity( &cairoTransformation );
+
+                //cairo_matrix_init( &cairoTransformation,
+                                //aTransformation.m_data[0][0],
+                                //aTransformation.m_data[1][0],
+                                //aTransformation.m_data[0][1],
+                                //aTransformation.m_data[1][1],
+                                //aTransformation.m_data[0][2],
+                                //aTransformation.m_data[1][2] );
+
+                cairo_set_matrix( cr, &cairoTransformation );
+
+                cairo_move_to (cr, 0, 0 );
+                cairo_line_to (cr, 0, dpi );
+                cairo_line_to (cr, dpi, dpi );
+                cairo_line_to (cr, dpi, 0 );
                 cairo_close_path (cr);
 
-                cairo_move_to (cr, 64.0, 25.6);
-                cairo_rel_line_to (cr, 51.2, 51.2);
-                cairo_rel_line_to (cr, -51.2, 51.2);
-                cairo_rel_line_to (cr, -51.2, -51.2);
-                cairo_close_path (cr);
+                //cairo_move_to (cr, 64.0, 25.6);
+                //cairo_rel_line_to (cr, 51.2, 51.2);
+                //cairo_rel_line_to (cr, -51.2, 51.2);
+                //cairo_rel_line_to (cr, -51.2, -51.2);
+                //cairo_close_path (cr);
 
-                cairo_set_line_width (cr, 10.0);
-                cairo_set_source_rgb (cr, 0, 0, 1);
-                cairo_fill_preserve (cr);
-                cairo_set_source_rgb (cr, 0, 0, 0);
+                cairo_set_line_width (cr, 1.0);
+                //cairo_set_source_rgb (cr, 0, 0, 1);
+                //cairo_fill_preserve (cr);
+                //cairo_set_source_rgb (cr, 0, 0, 0);
                 cairo_stroke (cr);
             }
         }
